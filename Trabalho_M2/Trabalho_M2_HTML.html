@@ -1,0 +1,142 @@
+<html>
+    <head>
+        <title>Trabalho M2</title>
+        <link rel="stylesheet" href="tema_tabela.css"/>
+        <script>
+            let nextId = 1;
+            function adicionaLinha(){
+                let tbody = document.getElementById("body");
+                let newTr = document.createElement("tr");
+                newTr.id = nextId;
+                let newNome = document.createElement("input");
+                let newEmail = document.createElement("input");
+                let newSelect = document.createElement("select");
+                let newValor = document.createElement("input");
+                let newButton = document.createElement("input");
+
+                let newTd1 = document.createElement("td");
+                newTd1.id = "Nome_" + nextId;
+                newNome.id = "n" + nextId;
+                newNome.type = "text";
+                newNome.name = "contribuinte";
+                newNome.placeholder = "Digite aqui..."
+                newTd1.appendChild(newNome);
+                newTr.appendChild(newTd1);
+
+                let newTd2 = document.createElement("td");
+                newTd2.id = "email_" + nextId;
+                newEmail.id = "e" + nextId;
+                newEmail.type = "text";
+                newEmail.name = "email";
+                newEmail.placeholder = "Digite aqui..."
+                newTd2.appendChild(newEmail);
+                newTr.appendChild(newTd2);
+
+                let newTd3 = document.createElement("td");
+                newTd3.id = "select_" + nextId;
+                newSelect.id = "s" + nextId;
+                newSelect.name = "Select";
+                let op1 = document.createElement("option");
+                op1.text = "Selecionar"
+                op1.value = "0";
+                newSelect.appendChild(op1);
+                let op2 = document.createElement("option");
+                op2.text = "Hospital";
+                op2.value = "1";
+                newSelect.appendChild(op2);
+                let op3 = document.createElement("option");
+                op3.text = "Creche";
+                op3.value = "2";
+                newSelect.appendChild(op3);
+                let op4 = document.createElement("option");
+                op4.text = "Museu";
+                op4.value = "3";
+                newSelect.appendChild(op4);
+                newTd3.appendChild(newSelect);
+                newTr.appendChild(newTd3);
+
+                let newTd4 = document.createElement("td");
+                newTd4.id = "valor_" + nextId;
+                newValor.id = "v" + nextId;
+                newValor.type = "text";
+                newValor.name = "valor";
+                newValor.placeholder = "$0,00";
+                newTd4.appendChild(newValor);
+                newTr.appendChild(newTd4);
+
+                let newTd5 = document.createElement("td");
+                newTd5.id = "exclui_" + nextId;
+                newButton.type = "button";
+                newButton.value = "Excluir";
+                newButton.onclick = excluiLinha;
+                newTd5.appendChild(newButton);
+                newTr.appendChild(newTd5);
+
+                tbody.appendChild(newTr);
+
+                nextId++;
+            }
+
+            function excluiLinha() {
+                let confirmacao = window.confirm("Confirmar exclusao?");
+                if(confirmacao == true){
+                    console.log(this);
+                    let td = this.parentElement;
+                    let tr = td.parentElement;
+                    let index = tr.rowIndex;
+                    let tbody = tr.parentElement;
+                    let table = tbody.parentElement;
+                    table.deleteRow(index);
+                }
+            }
+
+            function validaForm(){
+                let vazio = false;
+                for(var i=1; i<=nextId; i++){
+                    let a = document.getElementById("n" + i);
+                    let b = document.getElementById("e" + i);
+                    let c = document.getElementById("s" + i);
+                    let d = document.getElementById("v" + i);
+                    console.log(a ,"- ", b, "- ", c,"-", d);
+                    //window.alert("A");
+                    if(a != null){
+                        if(a.value == "" || b.value == "" || c.value == 0 || d.value == ""){
+                            console.log("AQUI");
+                            vazio = true;
+                        }
+                        //console.log("Dentro do for");
+                    }
+                }
+                if(vazio){
+                    window.alert("Nao foi possivel enviar! Preencha Todos os Campos!");
+                    return false;
+                }else{
+                    window.alert("Enviado Com Sucesso!");
+                }            
+            }
+
+
+
+        </script>
+    </head>
+    <body>
+        <form id="Form_Tabela" onsubmit="return validaForm()">
+            <table id="" width="auto">
+                <caption>Doacoes</caption>
+                <thead>
+                    <tr>
+                        <th>Nome do Contribuinte</th>
+                        <th>E-mail</th>
+                        <th>Instiuicao Beneficiada</th>
+                        <th>Valor pago</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody id="body"></tbody>
+            </table>
+            <input type="submit" id="envia" />
+        </form>
+        <input type="button" value="adicionar linha" id="adiciona"  onclick="adicionaLinha()"  />
+
+    </body>
+</html>
